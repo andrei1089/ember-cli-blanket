@@ -6,6 +6,7 @@ var options = {
   antifilter: "//.*(tests|template).*/",
   loaderExclusions: [],
   enableCoverage: true,
+  includeSourceInReport: false,
   cliOptions: {
     reporters: ['json']
   }
