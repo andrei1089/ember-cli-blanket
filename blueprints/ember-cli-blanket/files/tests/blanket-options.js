@@ -7,6 +7,7 @@ var options = {
   loaderExclusions: [],
   enableCoverage: true,
   includeSourceInReport: false,
+  reportingBodySizeLimit: '100kb',
   cliOptions: {
     reporters: ['json']
   }
