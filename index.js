@@ -39,7 +39,9 @@ module.exports = {
   },
 
   middleware: function(app, options) {
-    app.use(bodyParser.json());
+    app.use(bodyParser.json({
+      limit: '1gb'
+    }));
     app.use(coverageMiddleware(options));
     app.use(logErrors);
   },
