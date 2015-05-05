@@ -4,6 +4,7 @@ var path = require('path');
 var Funnel = require('broccoli-funnel');
 var mergeTrees = require('broccoli-merge-trees');
 var coverageMiddleware = require('./lib/coverage-middleware');
+var optionUtils = require('./lib/blanket-options');
 var bodyParser = require('body-parser');
 
 function logErrors(err, req, res, next) {
@@ -39,6 +40,7 @@ module.exports = {
   },
 
   middleware: function(app, options) {
+    var blanketOptions = optionUtils.loadBlanketOptions(options);
     app.use(bodyParser.json({
       limit: options.reportingBodySizeLimit ? options.reportingBodySizeLimit : '100kb'
     }));
