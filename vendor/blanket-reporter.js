@@ -9,7 +9,7 @@
       fileCoverage.push({
         fileName: x,
         lines: fileData,
-        // source: fileData.source,  // currently not included - post request will be too large for most projects
+        source: fileData.source,  // currently included provided that the limit of post has been increased.
         branchData: fileData.branchData
       });
     }
