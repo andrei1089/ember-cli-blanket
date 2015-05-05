@@ -24,6 +24,7 @@ Reporters have default output destinations and this can be overwritten in the `b
 ```js
 var options = {
 ...
+    reportingBodySizeLimit: '10mb', // default to 100kb. you can make it larger. especially when includeSourceInReport is turned on. 
     includeSourceInReport: true, // default to false. if you decided to include this option. make sure your server can handle this.
     cliOptions: {
       jsonOptions: {

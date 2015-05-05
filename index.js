@@ -40,7 +40,7 @@ module.exports = {
 
   middleware: function(app, options) {
     app.use(bodyParser.json({
-      limit: '1gb'
+      limit: options.reportingBodySizeLimit ? options.reportingBodySizeLimit : '100kb'
     }));
     app.use(coverageMiddleware(options));
     app.use(logErrors);
