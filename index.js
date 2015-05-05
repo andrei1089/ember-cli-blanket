@@ -42,7 +42,7 @@ module.exports = {
   middleware: function(app, options) {
     var blanketOptions = optionUtils.loadBlanketOptions(options);
     app.use(bodyParser.json({
-      limit: options.reportingBodySizeLimit ? options.reportingBodySizeLimit : '100kb'
+      limit: blanketOptions.reportingBodySizeLimit ? blanketOptions.reportingBodySizeLimit : '100kb'
     }));
     app.use(coverageMiddleware(options));
     app.use(logErrors);
