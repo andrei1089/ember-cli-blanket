@@ -1,12 +1,25 @@
 /*global QUnit, blanket, mocha, moduleLoaderFinish, $ */
 
 function sendCoverage() {
+
+  var data;
+  var reporter = blanket.options('cliOptions').reporters[0].toLowerCase();
+
+  switch(reporter) {
+    case "pass-on-html":
+      data = JSON.stringify({ content: '<div id="blanket-main">' + $('#blanket-main').html() + '</div>' });
+      break;
+    default:
+      data = JSON.stringify(window._$blanket_coverageData);
+      break;
+  }
+
 	$.ajax({
 		type: 'POST',
 		url:'/write-blanket-coverage',
 		datatype: 'json',
 		contentType:'application/json; charset=utf-8',
-		data: JSON.stringify(window._$blanket_coverageData)
+		data: data
 	  });
 }
 
