@@ -6,7 +6,7 @@ function sendCoverage() {
   var reporter = blanket.options('cliOptions').reporters[0].toLowerCase();
 
   switch(reporter) {
-    case "pass-on-html":
+    case "passhtml":
       data = JSON.stringify({ content: '<div id="blanket-main">' + $('#blanket-main').html() + '</div>' });
       break;
     default:
