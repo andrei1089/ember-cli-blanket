@@ -50,7 +50,10 @@ if (typeof(QUnit) === 'object') {
 }
 
 var shouldExclude = function(moduleName) {
-    if (moduleName.indexOf(blanket.options('modulePrefix')) === -1) {
+    var modulePrefix = blanket.options('modulePrefix');
+    var shouldExcludeModuleByName = (modulePrefix instanceof RegExp) ? !modulePrefix.test(moduleName) : (moduleName.indexOf(modulePrefix) === -1);
+
+    if (shouldExcludeModuleByName) {
       return true;
     }
 
