@@ -87,6 +87,17 @@ if (blanket.options('enableCoverage')) {
 
 }
 
+// merge window.emberCliBlanketOptions.loaderExclusions with the original loaderExclusions
+if (blanket.options('enableCoverage')) {
+  var moduleExclusions = window.emberCliBlanketOptions.loaderExclusionsFromEmberCliPkg;
+  var loaderExclusions = blanket.options('loaderExclusions');
+  if (loaderExclusions && loaderExclusions instanceof Array) {
+    blanket.options('loaderExclusions', loaderExclusions.concat(moduleExclusions))
+  } else {
+    blanket.options('loaderExclusions', moduleExclusions)
+  }
+}
+
 /*
  * After running all the tests we'll loop over all matching requirejs
  * entries and annotate them so blanket will indicate their non-coverage
