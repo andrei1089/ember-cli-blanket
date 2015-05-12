@@ -7,7 +7,13 @@ function sendCoverage() {
 
   switch(reporter) {
     case "passhtml":
-      data = JSON.stringify({ content: '<div id="blanket-main">' + $('#blanket-main').html() + '</div>' });
+      var stmResults = $('#blanket-main .grand-total .rs:eq(1)').text().trim().split('/');
+      data = JSON.stringify({
+        content: '<div id="blanket-main">' + $('#blanket-main').html() + '</div>',
+        coverage: $('#blanket-main .grand-total .rs:eq(0)').text().replace('%', '').trim(),
+        coveredStm: stmResults[0],
+        totalStm: stmResults[1]
+      });
       break;
     default:
       data = JSON.stringify(window._$blanket_coverageData);
