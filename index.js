@@ -4,7 +4,9 @@ var path = require('path');
 var Funnel = require('broccoli-funnel');
 var mergeTrees = require('broccoli-merge-trees');
 var coverageMiddleware = require('./lib/coverage-middleware');
+var optionUtils = require('./lib/blanket-options');
 var bodyParser = require('body-parser');
+var emberPackageFileFinder = require('./lib/ember-package-file-finder');
 
 function logErrors(err, req, res, next) {
   console.error(err.stack);
@@ -20,6 +22,21 @@ module.exports = {
 
   blueprintsPath: function() {
     return path.join(__dirname, 'blueprints');
+  },
+
+  contentFor: function(type, config) {
+    if (type === 'head') {
+      var content = [
+          "<script type='text/javascript'> ",
+          "  var coverageEnabled = window.location.search.indexOf('coverage') > -1;",
+          "  if (coverageEnabled) {",
+          "    window.emberCliBlanketOptions = JSON.parse('" + JSON.stringify({ loaderExclusionsFromEmberCliPkg: emberPackageFileFinder.findFilesInEmberAddons()}) + "');",
+          "  }",
+          "</script>"
+      ].join("\r\n");
+
+      return content;
+    }
   },
 
   included: function included(app) {
@@ -39,7 +56,10 @@ module.exports = {
   },
 
   middleware: function(app, options) {
-    app.use(bodyParser.json());
+    var blanketOptions = optionUtils.loadBlanketOptions(options);
+    app.use(bodyParser.json({
+      limit: blanketOptions.reportingBodySizeLimit ? blanketOptions.reportingBodySizeLimit : '100kb'
+    }));
     app.use(coverageMiddleware(options));
     app.use(logErrors);
   },

@@ -6,12 +6,17 @@
     // This joy brought to you by pushing addl properties onto array elements
     for (var x in coverageData.files) {
       var fileData = coverageData.files[x];
-      fileCoverage.push({
+      var options = {
         fileName: x,
         lines: fileData,
-        // source: fileData.source,  // currently not included - post request will be too large for most projects
         branchData: fileData.branchData
-      });
+      };
+
+      if (blanket.options('includeSourceInReport')) { // include source if specified.
+        options.source = fileData.source
+      }
+
+      fileCoverage.push(options);
     }
     // Create our own data structure to insulate from blanket's internals
     window._$blanket_coverageData = {

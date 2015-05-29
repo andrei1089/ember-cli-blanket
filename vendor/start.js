@@ -1,12 +1,31 @@
 /*global QUnit, blanket, mocha, moduleLoaderFinish, $ */
 
 function sendCoverage() {
+
+  var data;
+  var reporter = blanket.options('cliOptions').reporters[0].toLowerCase();
+
+  switch(reporter) {
+    case "passhtml":
+      var stmResults = $('#blanket-main .grand-total .rs:eq(1)').text().trim().split('/');
+      data = JSON.stringify({
+        content: '<div id="blanket-main">' + $('#blanket-main').html() + '</div>',
+        coverage: $('#blanket-main .grand-total .rs:eq(0)').text().replace('%', '').trim(),
+        coveredStm: stmResults[0],
+        totalStm: stmResults[1]
+      });
+      break;
+    default:
+      data = JSON.stringify(window._$blanket_coverageData);
+      break;
+  }
+
 	$.ajax({
 		type: 'POST',
 		url:'/write-blanket-coverage',
 		datatype: 'json',
 		contentType:'application/json; charset=utf-8',
-		data: JSON.stringify(window._$blanket_coverageData)
+		data: data
 	  });
 }
 

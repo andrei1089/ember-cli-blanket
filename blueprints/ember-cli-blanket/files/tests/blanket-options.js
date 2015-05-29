@@ -6,6 +6,8 @@ var options = {
   antifilter: '//.*(tests|template).*/',
   loaderExclusions: [],
   enableCoverage: true,
+  includeSourceInReport: false,
+  reportingBodySizeLimit: '100kb',
   cliOptions: {
     reporters: ['json'],
     autostart: true
